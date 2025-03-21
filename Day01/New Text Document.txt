@@ -1,0 +1,138 @@
+Setting environment for using XAMPP for Windows.
+My Lap@DESKTOP-KC7EPLE d:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
++--------------------+
+6 rows in set (0.003 sec)
+
+MariaDB [(none)]> create database UOV;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| student            |
+| test               |
+| uov                |
++--------------------+
+7 rows in set (0.002 sec)
+
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> create table students (std_id char(10),name varchar(20),course varchar(15),DOB date,city varchar(20));
+Query OK, 0 rows affected (0.256 sec)
+
+MariaDB [uov]> desc students;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| std_id | char(10)    | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| course | varchar(15) | YES  |     | NULL    |       |
+| DOB    | date        | YES  |     | NULL    |       |
+| city   | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.041 sec)
+
+ariaDB [uov]> insert into students values('2022/asp/01','nimna','amc',"2022-02-05",'vavuniya');
+Query OK, 1 row affected, 1 warning (0.092 sec)
+
+MariaDB [uov]> insert into students values('2022/asp/01','nimna','amc','2022-02-05','vavuniya');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [uov]> insert into students values('2022/asp/50','kumar','ama','2022/14/02','vavuniya');
+Query OK, 1 row affected, 1 warning (0.004 sec)
+
+MariaDB [uov]> insert into students values("2022/asp/41",'ásd','laj','2022/14/14','vavumniya');
+Query OK, 1 row affected, 2 warnings (0.004 sec)
+
+MariaDB [uov]> insert into students values('2022/asp/41','ásd','laj','22/05/2022','vavumniya');
+Query OK, 1 row affected, 2 warnings (0.006 sec)
+
+MariaDB [uov]> describe students;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| std_id | char(15)    | YES  |     | NULL    |       |
+| name   | varchar(30) | YES  |     | NULL    |       |
+| course | varchar(30) | YES  |     | NULL    |       |
+| Dob    | date        | YES  |     | NULL    |       |
+| city   | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+MariaDB [uov]> select * from students;
++-------------+-------+--------+------------+-----------+
+| std_id      | name  | course | Dob        | city      |
++-------------+-------+--------+------------+-----------+
+| 2022/asp/01 | nimna | amc    | 2022-02-05 | vavuniya  |
+| 2022/asp/01 | nimna | amc    | 2022-02-05 | vavuniya  |
+| 2022/asp/50 | kumar | ama    | 0000-00-00 | vavuniya  |
+| 2022/asp/41 | ?sd   | laj    | 0000-00-00 | vavumniya |
+| 2022/asp/41 | ?sd   | laj    | 0000-00-00 | vavumniya |
++-------------+-------+--------+------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [uov]> create table Employee(PhysicianID int,name varchar(20),Position varchar(20));
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [uov]> insert into employee values('1','John Dorian','Staff Internist');
+Query OK, 1 row affected (0.040 sec)
+
+MariaDB [uov]> insert into employee values("2","Elliot Reid","Attending Physician");
+Query OK, 1 row affected (0.030 sec)
+
+MariaDB [uov]> insert into employee values('3','Christophar turk','Surgical Attending physician');
+Query OK, 1 row affected, 1 warning (0.004 sec)
+
+MariaDB [uov]> insert into employee values('4','Percival Cox','Senior Attending physician');
+Query OK, 1 row affected, 1 warning (0.004 sec)
+
+MariaDB [uov]> insert into employee values('5','Keith Dudemeister','MD Resident');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [uov]> insert into employee values('6','Molly Clock','Attending Phychiatrist');
+Query OK, 1 row affected, 1 warning (0.004 sec)
+
+MariaDB [uov]> select * from employee;
++-------------+-------------------+----------------------+
+| PhysicianID | name              | Position             |
++-------------+-------------------+----------------------+
+|           1 | John Dorian       | Staff Internist      |
+|           2 | Elliot Reid       | Attending Physician  |
+|           3 | Christophar turk  | Surgical Attending p |
+|           4 | Percival Cox      | Senior Attending phy |
+|           5 | Keith Dudemeister | MD Resident          |
+|           6 | Molly Clock       | Attending Phychiatri |
++-------------+-------------------+----------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [uov]>
+
+
+concusion:- 01.I have learned syntx and data type in sql,and also i have learned consept of how it works.
+            02.I learned how to create database.
+            03.I learned how to create tables,and insert the values.
+            04.I learned how to give multiple attribute valuse.
