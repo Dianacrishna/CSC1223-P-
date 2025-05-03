@@ -342,3 +342,11 @@ MariaDB [uov]> select name as student_name from student;
 6 rows in set (0.001 sec)
 
 MariaDB [uov]>
+
+
+
+Conclusion:
+I have learnt how to select particular colums,
+how use keywords correct places (WHERE,BETWEEN,DISTINCT,AND,OR),
+how to find maximum,minmum,average and count.
+how to changed temporary upper case and lower case
