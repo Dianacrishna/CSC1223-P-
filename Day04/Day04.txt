@@ -288,3 +288,7 @@ MariaDB [uov]> select*from customer;
 |          5 | Eve Davies    | 2020-11-29      | +3344556677 |
 +------------+---------------+-----------------+-------------+
 4 rows in set (0.001 sec)
+
+conclusion:
+I have learnt about how to update table,
+how to delete particular colums.
