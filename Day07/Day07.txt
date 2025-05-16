@@ -1,0 +1,297 @@
+
+Setting environment for using XAMPP for Windows.
+My Lap@DESKTOP-KC7EPLE D:\Xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.003 sec)
+
+MariaDB [(none)]> create database uov;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> use uov;
+Database changed
+MariaDB [uov]> create table Sales(Sale_ID int primary key,Salesperson VARCHAR(25),Region VARCHAR(25),Sale_Amount int,Sale_Date DATE);
+Query OK, 0 rows affected (0.194 sec)
+
+MariaDB [uov]> desc sales;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Sale_ID     | int(11)     | NO   | PRI | NULL    |       |
+| Salesperson | varchar(25) | YES  |     | NULL    |       |
+| Region      | varchar(25) | YES  |     | NULL    |       |
+| Sale_Amount | int(11)     | YES  |     | NULL    |       |
+| Sale_Date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.036 sec)
+
+MariaDB [uov]> INSERT INTO Sales VALUES
+    ->        (1,'Alice','North',1200,'2024-12-01'),
+    ->        (2,'Bob','South',800,'2024-12-01'),
+    ->        (3,'Alice','North',1500,'2024-12-02'),
+    ->        (4,'Carol','East',700,'2024-12-02'),
+    ->        (5,'Dave','West',2000,'2024-12-03'),
+    ->        (6,'Bob','South',950,'2024-12-03'),
+    ->        (7,'Carol','East',1300,'2024-12-04');
+Query OK, 7 rows affected (0.116 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [uov]> select * from sales;
++---------+-------------+--------+-------------+------------+
+| Sale_ID | Salesperson | Region | Sale_Amount | Sale_Date  |
++---------+-------------+--------+-------------+------------+
+|       1 | Alice       | North  |        1200 | 2024-12-01 |
+|       2 | Bob         | South  |         800 | 2024-12-01 |
+|       3 | Alice       | North  |        1500 | 2024-12-02 |
+|       4 | Carol       | East   |         700 | 2024-12-02 |
+|       5 | Dave        | West   |        2000 | 2024-12-03 |
+|       6 | Bob         | South  |         950 | 2024-12-03 |
+|       7 | Carol       | East   |        1300 | 2024-12-04 |
++---------+-------------+--------+-------------+------------+
+7 rows in set (0.048 sec)
+
+MariaDB [uov]> select sum(sale_amount) from sales;
++------------------+
+| sum(sale_amount) |
++------------------+
+|             8450 |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select count(*) from sales;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select avg(sale_amount) from sales;
++------------------+
+| avg(sale_amount) |
++------------------+
+|        1207.1429 |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select max(sale_amount) from sales;
++------------------+
+| max(sale_amount) |
++------------------+
+|             2000 |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select min(sale_amount) from sales;
++------------------+
+| min(sale_amount) |
++------------------+
+|              700 |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,count(*) from sales group by salsperson;
+ERROR 1054 (42S22): Unknown column 'salsperson' in 'group statement'
+MariaDB [uov]> select salesperson,count(*) from sales group by salesperson;
++-------------+----------+
+| salesperson | count(*) |
++-------------+----------+
+| Alice       |        2 |
+| Bob         |        2 |
+| Carol       |        2 |
+| Dave        |        1 |
++-------------+----------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select region,sum(sale_amount) from sales group by reigon;
+ERROR 1054 (42S22): Unknown column 'reigon' in 'group statement'
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region;
++--------+------------------+
+| region | sum(sale_amount) |
++--------+------------------+
+| East   |             2000 |
+| North  |             2700 |
+| South  |             1750 |
+| West   |             2000 |
++--------+------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region having sum(sale+amount)>2000;
+ERROR 1054 (42S22): Unknown column 'sale' in 'having clause'
+MariaDB [uov]> select region,sum(sale_amount) from sales group by region having sum(sale_amount)>2000;
++--------+------------------+
+| region | sum(sale_amount) |
++--------+------------------+
+| North  |             2700 |
++--------+------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select count(distinct salesperson) from sales;
++-----------------------------+
+| count(distinct salesperson) |
++-----------------------------+
+|                           4 |
++-----------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select sum(sale_amount) from sales where salesperson='Alice';
++------------------+
+| sum(sale_amount) |
++------------------+
+|             2700 |
++------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select region,avg(sale_amount) from sales group by region;
++--------+------------------+
+| region | avg(sale_amount) |
++--------+------------------+
+| East   |        1000.0000 |
+| North  |        1350.0000 |
+| South  |         875.0000 |
+| West   |        2000.0000 |
++--------+------------------+
+4 rows in set (0.002 sec)
+
+MariaDB [uov]> select sale_date,count(*) from sales group by sale_date;
++------------+----------+
+| sale_date  | count(*) |
++------------+----------+
+| 2024-12-01 |        2 |
+| 2024-12-02 |        2 |
+| 2024-12-03 |        2 |
+| 2024-12-04 |        1 |
++------------+----------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select sale_date,count(sale_amount) from sales group by sale_date;
++------------+--------------------+
+| sale_date  | count(sale_amount) |
++------------+--------------------+
+| 2024-12-01 |                  2 |
+| 2024-12-02 |                  2 |
+| 2024-12-03 |                  2 |
+| 2024-12-04 |                  1 |
++------------+--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,max(sale_amount) from sales;
++-------------+------------------+
+| salesperson | max(sale_amount) |
++-------------+------------------+
+| Alice       |             2000 |
++-------------+------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select salesperson from sales order by sale_amount desc;
++-------------+
+| salesperson |
++-------------+
+| Dave        |
+| Alice       |
+| Carol       |
+| Alice       |
+| Bob         |
+| Bob         |
+| Carol       |
++-------------+
+7 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson from sales order by sale_amount desc limit 1;
++-------------+
+| salesperson |
++-------------+
+| Dave        |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,count(*) from sales group by salesperson having count(*)>1;
++-------------+----------+
+| salesperson | count(*) |
++-------------+----------+
+| Alice       |        2 |
+| Bob         |        2 |
+| Carol       |        2 |
++-------------+----------+
+3 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,count(sale_amount) from sales group by salesperson having count(sale_amount)>1;
++-------------+--------------------+
+| salesperson | count(sale_amount) |
++-------------+--------------------+
+| Alice       |                  2 |
+| Bob         |                  2 |
+| Carol       |                  2 |
++-------------+--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [uov]> select region as MAXIMUM_NUMBER_OF_SALE_REGION from sales group by region order by count(*) desc limit 1;
++-------------------------------+
+| MAXIMUM_NUMBER_OF_SALE_REGION |
++-------------------------------+
+| South                         |
++-------------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [uov]> select distinct(region) from sales;
++--------+
+| region |
++--------+
+| North  |
+| South  |
+| East   |
+| West   |
++--------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select distinct region from sales;
++--------+
+| region |
++--------+
+| North  |
+| South  |
+| East   |
+| West   |
++--------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,sum(sale_amount) from sales group by salesperson order by sum(sale_amount) desc;
++-------------+------------------+
+| salesperson | sum(sale_amount) |
++-------------+------------------+
+| Alice       |             2700 |
+| Dave        |             2000 |
+| Carol       |             2000 |
+| Bob         |             1750 |
++-------------+------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [uov]> select salesperson,avg(sale_amount) from sales group by salesperson having avg(sale_amount)>1000;
++-------------+------------------+
+| salesperson | avg(sale_amount) |
++-------------+------------------+
+| Alice       |        1350.0000 |
+| Dave        |        2000.0000 |
++-------------+------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [uov]>
