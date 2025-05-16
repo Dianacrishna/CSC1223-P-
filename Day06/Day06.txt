@@ -1,0 +1,277 @@
+
+Setting environment for using XAMPP for Windows.
+My Lap@DESKTOP-KC7EPLE E:\New folder
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| librarysystem      |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.058 sec)
+
+MariaDB [(none)]> create database company;
+Query OK, 1 row affected (0.067 sec)
+
+MariaDB [(none)]> use company;
+Database changed
+MariaDB [company]> create table Employee(Emp_ID int primary key,Emp_Name varchar(20),Emp_age int, Emp_city varchar(20),Working_houes int);
+Query OK, 0 rows affected (0.219 sec)
+
+MariaDB [company]> 
+Query OK, 8 rows affected (0.412 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [company]> select * from employee;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city   | Working_houes |
++--------+----------+---------+------------+---------------+
+|    101 | peter    |      32 | New york   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    103 | Donald   |      40 | Arizona    |            12 |
+|    104 | Obama    |      35 | Florida    |             9 |
+|    105 | mathew   |      32 | Georgia    |            10 |
+|    106 | kane     |      45 | Alaska     |            15 |
+|    107 | Adam     |      35 | California |             9 |
+|    108 | Macculan |      40 | Florida    |            12 |
++--------+----------+---------+------------+---------------+
+8 rows in set (0.001 sec)
+
+MariaDB [company]> select count(Emp_name) from employee;
++-----------------+
+| count(Emp_name) |
++-----------------+
+|               8 |
++-----------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select count(*) from employee;
++----------+
+| count(*) |
++----------+
+|        8 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select count(*) as total_number from employee;
++--------------+
+| total_number |
++--------------+
+|            8 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select count(distinct Emp_name) from employee;
++--------------------------+
+| count(distinct Emp_name) |
++--------------------------+
+|                        8 |
++--------------------------+
+1 row in set (0.207 sec)
+
+MariaDB [company]> select count(*) from employee where Emp_age>33;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.605 sec)
+
+MariaDB [company]> select count(Emp_id) from employee where emp_age>32;
++---------------+
+| count(Emp_id) |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select Emp_city,count(*) as count from employee group by Emp_city;
++------------+-------+
+| Emp_city   | count |
++------------+-------+
+| Alaska     |     1 |
+| Arizona    |     1 |
+| California |     2 |
+| Florida    |     2 |
+| Georgia    |     1 |
+| New york   |     1 |
++------------+-------+
+6 rows in set (0.002 sec)
+
+MariaDB [company]> select sum(Working_houes) as Total_working_houes from employee;
++---------------------+
+| Total_working_houes |
++---------------------+
+|                  92 |
++---------------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select Emp_name,sum(working_houes) as Total_workng_hours from employee where Emp_name like 'M%';
++----------+--------------------+
+| Emp_name | Total_workng_hours |
++----------+--------------------+
+| Mark     |                 37 |
++----------+--------------------+
+1 row in set (0.002 sec)
+
+MariaDB [company]> select Emp_age,sum(working_houes) as total_working_hours from employee group by Emp_age;
++---------+---------------------+
+| Emp_age | total_working_hours |
++---------+---------------------+
+|      32 |                  35 |
+|      35 |                  18 |
+|      40 |                  24 |
+|      45 |                  15 |
++---------+---------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [company]> select sum(distinct working_houes) from employee;
++-----------------------------+
+| sum(distinct working_houes) |
++-----------------------------+
+|                          46 |
++-----------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select avg(Emp_age) as average_age from employee;
++-------------+
+| average_age |
++-------------+
+|     36.3750 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select avg(working_houes) from employee where Emp_city in('new York','california','florida');
++--------------------+
+| avg(working_houes) |
++--------------------+
+|            11.0000 |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [company]> select Emp_age,avg(working_houes) from employee group by Emp_age;
++---------+--------------------+
+| Emp_age | avg(working_houes) |
++---------+--------------------+
+|      32 |            11.6667 |
+|      35 |             9.0000 |
+|      40 |            12.0000 |
+|      45 |            15.0000 |
++---------+--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [company]> select Emp_age,count(*) as count from employee group by Emp_age having count(*)>1;
++---------+-------+
+| Emp_age | count |
++---------+-------+
+|      32 |     3 |
+|      35 |     2 |
+|      40 |     2 |
++---------+-------+
+3 rows in set (0.018 sec)
+
+MariaDB [company]> select Emp_city,avg(working_houes) from employee group by Emp_city having avg(working_houes)>10;
++------------+--------------------+
+| Emp_city   | avg(working_houes) |
++------------+--------------------+
+| Alaska     |            15.0000 |
+| Arizona    |            12.0000 |
+| California |            12.0000 |
+| Florida    |            10.5000 |
++------------+--------------------+
+4 rows in set (0.122 sec)
+
+MariaDB [company]> select * from employee limit 1;
++--------+----------+---------+----------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city | Working_houes |
++--------+----------+---------+----------+---------------+
+|    101 | peter    |      32 | New york |            10 |
++--------+----------+---------+----------+---------------+
+1 row in set (0.000 sec)
+
+MariaDB [company]> select max(Emp_age) from employee;
++--------------+
+| max(Emp_age) |
++--------------+
+|           45 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [company]> select min(Emp_age) from employee;
++--------------+
+| min(Emp_age) |
++--------------+
+|           32 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [company]> select * from employee limit 3;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city   | Working_houes |
++--------+----------+---------+------------+---------------+
+|    101 | peter    |      32 | New york   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    103 | Donald   |      40 | Arizona    |            12 |
++--------+----------+---------+------------+---------------+
+3 rows in set (0.000 sec)
+
+MariaDB [company]> select * from employee order by emp_id desc limit 1;
++--------+----------+---------+----------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city | Working_houes |
++--------+----------+---------+----------+---------------+
+|    108 | Macculan |      40 | Florida  |            12 |
++--------+----------+---------+----------+---------------+
+1 row in set (0.000 sec)
+
+MariaDB [company]> select * from employee order by Emp_age asc;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city   | Working_houes |
++--------+----------+---------+------------+---------------+
+|    101 | peter    |      32 | New york   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    105 | mathew   |      32 | Georgia    |            10 |
+|    104 | Obama    |      35 | Florida    |             9 |
+|    107 | Adam     |      35 | California |             9 |
+|    103 | Donald   |      40 | Arizona    |            12 |
+|    108 | Macculan |      40 | Florida    |            12 |
+|    106 | kane     |      45 | Alaska     |            15 |
++--------+----------+---------+------------+---------------+
+8 rows in set (0.021 sec)
+
+MariaDB [company]> select * from employee order by Emp_age desc;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_age | Emp_city   | Working_houes |
++--------+----------+---------+------------+---------------+
+|    106 | kane     |      45 | Alaska     |            15 |
+|    103 | Donald   |      40 | Arizona    |            12 |
+|    108 | Macculan |      40 | Florida    |            12 |
+|    104 | Obama    |      35 | Florida    |             9 |
+|    107 | Adam     |      35 | California |             9 |
+|    101 | peter    |      32 | New york   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    105 | mathew   |      32 | Georgia    |            10 |
++--------+----------+---------+------------+---------------+
+8 rows in set (0.001 sec)
+
+MariaDB [company]> select Emp_name,Emp_id from employee order by Emp_id desc limit 1;
++----------+--------+
+| Emp_name | Emp_id |
++----------+--------+
+| Macculan |    108 |
++----------+--------+
+1 row in set (0.001 sec)
+
