@@ -1,0 +1,203 @@
+
+------------------------------part(a)----------------------------
+
+MariaDB [(none)]> create database MovieDB;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use MovieDB;
+Database changed
+
+MariaDB [MovieDB]> create table Movie(Movie_id int primary key,Title varchar(20),Catagory varchar(20),PublicationDate date,Director varchar(20),Rating double(10,1),Minutes int);
+Query OK, 0 rows affected (0.067 sec)
+
+MariaDB [MovieDB]> insert into movie values
+    -> (1,'Hostel Transylvania','Animation','2012-09-28','Genndy Tartakovsky',7.0,91),
+    -> (2,'jurasic park','adventure','1993-06-11','steven spielberg',8.2,127),
+    -> (3,'Home Alone','Family','1990-11-16','Chris Columbus',7.7,103),
+    -> (4,'Hugo','Drama','2011-11-23','Martin Scorsese',7.5,126),
+    -> (5,'3 Idiots','Comedy','2009-12-25','Rajkumar Hirani',8.4,170),
+    -> (6,'The Avengers','Sci-Fi','2012-05-04','Joss Whedon',8.0,143),
+    -> (7,'Avatar','Adventure','2009-12-18','James Cameron',7.9,162),
+    -> (8,'Luca','Animation','2021-06-18','Enrico Casarosa',7.4,95),
+    -> (9,'The Dark Knight','Drama','2008-07-18','Christopher Nolan',9.0,152),
+    -> (10,'Titanic','Romance','1997-12-19','James Cameron',7.9,195);
+Query OK, 10 rows affected (0.004 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+-------------------------------part(b)-----------------------------
+-------i--------
+MariaDB [MovieDB]> desc movie;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| Movie_id        | int(11)      | NO   | PRI | NULL    |       |
+| Title           | varchar(20)  | YES  |     | NULL    |       |
+| Catagory        | varchar(20)  | YES  |     | NULL    |       |
+| PublicationDate | date         | YES  |     | NULL    |       |
+| Director        | varchar(20)  | YES  |     | NULL    |       |
+| Rating          | double(10,1) | YES  |     | NULL    |       |
+| Minutes         | int(11)      | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+7 rows in set (0.014 sec)
+
+-----------ii------------
+MariaDB [MovieDB]> select * from movie;
++----------+---------------------+-----------+-----------------+--------------------+--------+---------+
+| Movie_id | Title               | Catagory  | PublicationDate | Director           | Rating | Minutes |
++----------+---------------------+-----------+-----------------+--------------------+--------+---------+
+|        1 | Hostel Transylvania | Animation | 2012-09-28      | Genndy Tartakovsky |    7.0 |      91 |
+|        2 | jurasic park        | adventure | 1993-06-11      | steven spielberg   |    8.2 |     127 |
+|        3 | Home Alone          | Family    | 1990-11-16      | Chris Columbus     |    7.7 |     103 |
+|        4 | Hugo                | Drama     | 2011-11-23      | Martin Scorsese    |    7.5 |     126 |
+|        5 | 3 Idiots            | Comedy    | 2009-12-25      | Rajkumar Hirani    |    8.4 |     170 |
+|        6 | The Avengers        | Sci-Fi    | 2012-05-04      | Joss Whedon        |    8.0 |     143 |
+|        7 | Avatar              | Adventure | 2009-12-18      | James Cameron      |    7.9 |     162 |
+|        8 | Luca                | Animation | 2021-06-18      | Enrico Casarosa    |    7.4 |      95 |
+|        9 | The Dark Knight     | Drama     | 2008-07-18      | Christopher Nolan  |    9.0 |     152 |
+|       10 | Titanic             | Romance   | 1997-12-19      | James Cameron      |    7.9 |     195 |
++----------+---------------------+-----------+-----------------+--------------------+--------+---------+
+10 rows in set (0.000 sec)
+
+----------iii------
+MariaDB [MovieDB]> select title,catagory from movie;
++---------------------+-----------+
+| title               | catagory  |
++---------------------+-----------+
+| Hostel Transylvania | Animation |
+| jurasic park        | adventure |
+| Home Alone          | Family    |
+| Hugo                | Drama     |
+| 3 Idiots            | Comedy    |
+| The Avengers        | Sci-Fi    |
+| Avatar              | Adventure |
+| Luca                | Animation |
+| The Dark Knight     | Action    |
+| Titanic             | Romance   |
++---------------------+-----------+
+10 rows in set (0.000 sec)
+
+
+------------iv-----------
+
+MariaDB [MovieDB]> select distinct director from movie;
++--------------------+
+| director           |
++--------------------+
+| Genndy Tartakovsky |
+| steven spielberg   |
+| Chris Columbus     |
+| Martin Scorsese    |
+| Rajkumar Hirani    |
+| Joss Whedon        |
+| James Cameron      |
+| Enrico Casarosa    |
+| Christopher Nolan  |
++--------------------+
+9 rows in set (0.000 sec)
+
+------------v-------------
+
+MariaDB [MovieDB]> select Title,rating from movie where rating>7.5;
++-----------------+--------+
+| Title           | rating |
++-----------------+--------+
+| jurasic park    |    8.2 |
+| Home Alone      |    7.7 |
+| 3 Idiots        |    8.4 |
+| The Avengers    |    8.0 |
+| Avatar          |    7.9 |
+| The Dark Knight |    9.0 |
+| Titanic         |    7.9 |
++-----------------+--------+
+7 rows in set (0.000 sec)
+
+--------vi------------
+MariaDB [MovieDB]> select avg(minutes) from movie;
++--------------+
+| avg(minutes) |
++--------------+
+|     136.4000 |
++--------------+
+1 row in set (0.000 sec)
+
+---------vii----------------
+MariaDB [MovieDB]> update movie set Catagory='Action' where title='The Dark Knight';
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+-----------viii-------
+MariaDB [MovieDB]> select title,year(PublicationDate) from movie where Director='James Cameron';
++---------+-----------------------+
+| title   | year(PublicationDate) |
++---------+-----------------------+
+| Avatar  |                  2009 |
+| Titanic |                  1997 |
++---------+-----------------------+
+2 rows in set (0.000 sec)
+
+---------------ix---------
+
+MariaDB [MovieDB]> select sum(minutes) from movie where title like '%e%';
++--------------+
+| sum(minutes) |
++--------------+
+|          489 |
++--------------+
+1 row in set (0.000 sec)
+
+-----------x-----------
+MariaDB [MovieDB]> select Movie_id,publicationDate from movie where rating between 7.2 and 8.2;
++----------+-----------------+
+| Movie_id | publicationDate |
++----------+-----------------+
+|        2 | 1993-06-11      |
+|        3 | 1990-11-16      |
+|        4 | 2011-11-23      |
+|        6 | 2012-05-04      |
+|        7 | 2009-12-18      |
+|        8 | 2021-06-18      |
+|       10 | 1997-12-19      |
++----------+-----------------+
+7 rows in set (0.000 sec)
+
+------------------xi-------------
+
+MariaDB [MovieDB]> select catagory,max(rating) from movie group by catagory order by rating desc;
++-----------+-------------+
+| catagory  | max(rating) |
++-----------+-------------+
+| Action    |         9.0 |
+| Comedy    |         8.4 |
+| adventure |         8.2 |
+| Sci-Fi    |         8.0 |
+| Romance   |         7.9 |
+| Family    |         7.7 |
+| Drama     |         7.5 |
+| Animation |         7.4 |
++-----------+-------------+
+8 rows in set (0.001 sec)
+
+--------------xii-----------
+
+MariaDB [MovieDB]> select concat(title,'-',year(publicationDate)) from movie;
++-----------------------------------------+
+| concat(title,'-',year(publicationDate)) |
++-----------------------------------------+
+| Hostel Transylvania-2012                |
+| jurasic park-1993                       |
+| Home Alone-1990                         |
+| Hugo-2011                               |
+| 3 Idiots-2009                           |
+| The Avengers-2012                       |
+| Avatar-2009                             |
+| Luca-2021                               |
+| The Dark Knight-2008                    |
+| Titanic-1997                            |
++-----------------------------------------+
+10 rows in set (0.000 sec)
+
+
+
+
+
+
